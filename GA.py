@@ -93,7 +93,7 @@ class GA:
         for serviceSelected in range(len(child)):
             #currentLen = len(child[serviceSelected]['allocationList'])
             #newElements = [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,currentLen))]
-            newElements = self.rnd.randint(0,self.system.nodenumber-1)
+            newElements = [self.rnd.randint(0,self.system.nodenumber-1)]
             child[serviceSelected]['allocationList'] += newElements
                        
     def shrinkMutation(self,child):
