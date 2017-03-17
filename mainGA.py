@@ -35,7 +35,8 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 
     thresholdDistance={}
     clusterbalanced={}
-    #reliability={}
+    if g.reliabilityAwarness:
+        reliability={}
     networkDistance={}
     fitness={}
     serviceNumber={}
@@ -49,10 +50,11 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     clusterbalanced['max'] = []
     clusterbalanced['mean'] = []
     clusterbalanced['sfit'] = []
-#    reliability['min'] = []
-#    reliability['max'] = []
-#    reliability['mean'] = []
-#    reliability['sfit'] = []
+    if g.reliabilityAwarness:
+        reliability['min'] = []
+        reliability['max'] = []
+        reliability['mean'] = []
+        reliability['sfit'] = []
     networkDistance['min'] = []
     networkDistance['max'] = []
     networkDistance['mean'] = []
@@ -111,14 +113,14 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
         clusterbalanced['max'].append(cmax)
         clusterbalanced['mean'].append(np.mean(seqclus))
       
-    
-#        seqrel = [x['reliability'] for x in paretoGeneration.fitness if len(x)>0]
-#    
-#        rmin = min(seqrel)
-#        rmax = max(seqrel)
-#        reliability['min'].append(rmin)
-#        reliability['max'].append(rmax)
-#        reliability['mean'].append(np.mean(seqrel))
+        if g.reliabilityAwarness:
+            seqrel = [x['reliability'] for x in paretoGeneration.fitness if len(x)>0]
+        
+            rmin = min(seqrel)
+            rmax = max(seqrel)
+            reliability['min'].append(rmin)
+            reliability['max'].append(rmax)
+            reliability['mean'].append(np.mean(seqrel))
       
     
         seqnet = [x['networkDistance'] for x in paretoGeneration.fitness if len(x)>0]
@@ -133,13 +135,16 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             netDiff = nmax - nmin
         if (tmax - tmin) > 0:
             thrDiff = tmax - tmin
-#        if (rmax - rmin) > 0:
-#            relDiff = rmax - rmin
+        if g.reliabilityAwarness:
+            if (rmax - rmin) > 0:
+                relDiff = rmax - rmin
         if (cmax - cmin) > 0:
             cluDiff = cmax - cmin
-
-#        seqfit = [ ( (x['thresholdDistance']/(thrDiff))*0.25 + (x['clusterbalanced']/(cluDiff))*0.25 + (x['reliability']/(relDiff))*0.25 + (x['networkDistance']/(netDiff))*0.25 )  for x in paretoGeneration.fitness if len(x)>0]
-        seqfit = [ ( (x['thresholdDistance']/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']/(cluDiff))*(1.0/3.0) + (x['networkDistance']/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
+            
+        if g.reliabilityAwarness:
+            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*0.25 + (x['clusterbalanced']/(cluDiff))*0.25 + (x['reliability']/(relDiff))*0.25 + (x['networkDistance']/(netDiff))*0.25 )  for x in paretoGeneration.fitness if len(x)>0]
+        else:
+            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']/(cluDiff))*(1.0/3.0) + (x['networkDistance']/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
         fitness['min'].append(min(seqfit))
         fitness['max'].append(max(seqfit))
         fitness['mean'].append(np.mean(seqfit))
@@ -149,8 +154,9 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
         serviceNumber['sfit'].append(seqserv[smallerFitIndex])   
         nodeNumber['sfit'].append(seqnode[smallerFitIndex])          
         thresholdDistance['sfit'].append(seqthr[smallerFitIndex])        
-        clusterbalanced['sfit'].append(seqclus[smallerFitIndex])  
-        #reliability['sfit'].append(seqrel[smallerFitIndex])  
+        clusterbalanced['sfit'].append(seqclus[smallerFitIndex])
+        if g.reliabilityAwarness:
+            reliability['sfit'].append(seqrel[smallerFitIndex])  
         networkDistance['sfit'].append(seqnet[smallerFitIndex])      
         
 
@@ -224,29 +230,27 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     plt.close(fig)
     
 
-    
-  
-#
-##ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-#    fig = plt.figure()
-##    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-#    fig.suptitle(figtitleStr, fontsize=14)
-#    ax = fig.add_subplot(111)
-##    fig.subplots_adjust(top=0.85)
-##    ax.set_title('axes title')
-#    ax.set_xlabel('Generations', fontsize=14)
-#    ax.set_ylabel('System Failure', fontsize=14)
-#    plt.gcf().subplots_adjust(left=0.15)
-#    ax.plot(reliability['max'], label='max')
-#    ax.plot(reliability['mean'], label='mean')
-#    ax.plot(reliability['min'], label='min')
-#    ax.plot(reliability['sfit'], label='fitness')      
-#    #    plt.legend(loc="upper left") 
-##upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-#    plt.legend()
-##    plt.show()
-#    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
-#    plt.close(fig)
+    if g.reliabilityAwarness:    
+    #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
+        fig = plt.figure()
+    #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
+        fig.suptitle(figtitleStr, fontsize=14)
+        ax = fig.add_subplot(111)
+    #    fig.subplots_adjust(top=0.85)
+    #    ax.set_title('axes title')
+        ax.set_xlabel('Generations', fontsize=14)
+        ax.set_ylabel('System Failure', fontsize=14)
+        plt.gcf().subplots_adjust(left=0.15)
+        ax.plot(reliability['max'], label='max')
+        ax.plot(reliability['mean'], label='mean')
+        ax.plot(reliability['min'], label='min')
+        ax.plot(reliability['sfit'], label='fitness')      
+        #    plt.legend(loc="upper left") 
+    #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
+        plt.legend()
+    #    plt.show()
+        fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
+        plt.close(fig)
     
 
     
@@ -388,27 +392,27 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 
     
     
-
-##ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-#    fig = plt.figure()
-##    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-#    fig.suptitle(figtitleStr, fontsize=14)
-#    ax = fig.add_subplot(111)
-##    fig.subplots_adjust(top=0.85)
-##    ax.set_title('axes title')
-#    ax.set_xlabel('Generations', fontsize=14)
-#    ax.set_ylabel('System Failure', fontsize=14)
-#    plt.gcf().subplots_adjust(left=0.15)
-#    ax.plot(reliability['mean'], label='mean')
-#    ax.plot(reliability['min'], label='min')
-#    ax.plot(reliability['sfit'], label='fitness')      
-#    #    plt.legend(loc="upper left") 
-##upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-#    plt.legend()
-##    plt.show()
-#    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
-#    plt.close(fig)
-#    
+    if g.reliabilityAwarness:
+    #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
+        fig = plt.figure()
+    #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
+        fig.suptitle(figtitleStr, fontsize=14)
+        ax = fig.add_subplot(111)
+    #    fig.subplots_adjust(top=0.85)
+    #    ax.set_title('axes title')
+        ax.set_xlabel('Generations', fontsize=14)
+        ax.set_ylabel('System Failure', fontsize=14)
+        plt.gcf().subplots_adjust(left=0.15)
+        ax.plot(reliability['mean'], label='mean')
+        ax.plot(reliability['min'], label='min')
+        ax.plot(reliability['sfit'], label='fitness')      
+        #    plt.legend(loc="upper left") 
+    #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
+        plt.legend()
+    #    plt.show()
+        fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
+        plt.close(fig)
+        
 
     
     
@@ -544,30 +548,29 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     
 
     
-#    
-#
-##ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-#    fig = plt.figure()
-##    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-#    fig.suptitle(figtitleStr, fontsize=14)
-#    ax = fig.add_subplot(111)
-##    fig.subplots_adjust(top=0.85)
-##    ax.set_title('axes title')
-#    ax.set_xlabel('Generations', fontsize=14)
-#    ax.set_ylabel('System Failure', fontsize=14)
-#    plt.gcf().subplots_adjust(left=0.15)
-#    ax.plot(reliability['mean'], label='mean')
-#    ax.plot(reliability['min'], label='min')
-#    
-#    #    plt.legend(loc="upper left") 
-##upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-#    plt.legend()
-##    plt.show()
-#    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
-#    plt.close(fig)
-#    
-#
-#    
+    if g.reliabilityAwarness:
+    #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
+        fig = plt.figure()
+    #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
+        fig.suptitle(figtitleStr, fontsize=14)
+        ax = fig.add_subplot(111)
+    #    fig.subplots_adjust(top=0.85)
+    #    ax.set_title('axes title')
+        ax.set_xlabel('Generations', fontsize=14)
+        ax.set_ylabel('System Failure', fontsize=14)
+        plt.gcf().subplots_adjust(left=0.15)
+        ax.plot(reliability['mean'], label='mean')
+        ax.plot(reliability['min'], label='min')
+        
+        #    plt.legend(loc="upper left") 
+    #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
+        plt.legend()
+    #    plt.show()
+        fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
+        plt.close(fig)
+        
+    
+        
     
 
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
@@ -635,71 +638,116 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 
 
 
+    if g.reliabilityAwarness:
 
  
-    for i in xrange(0,numberofGenerations,10):
-        
-        fig = plt.figure()
-        fig.suptitle("Generation "+str(i), fontsize=14)
-        ax.set_title(figtitleStr)
-        ax = fig.add_subplot(111)
-        ax.set_xlabel('Threshold Distance', fontsize=14)
-        ax.set_ylabel('Cluster Balanced', fontsize=14)
-        a = [v["thresholdDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-        b = [v["clusterbalanced"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-
-            #ax1 = fig.add_subplot(111)
-        plt.gcf().subplots_adjust(left=0.15)    
-        plt.scatter(a, b, s=10, marker="o")
-        fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-clus-g'+str(i)+'.pdf')
-            #ax1.annotate('a',(a,b))
-
-        
-        plt.close(fig)    
-
-    for i in xrange(0,numberofGenerations,10):
-        
-        fig = plt.figure()
-        fig.suptitle("Generation "+str(i), fontsize=14)
-        #fig,ax = plt.subplots()
-        ax.set_title(figtitleStr)
-        ax = fig.add_subplot(111)
-        ax.set_xlabel('Cluster Balanced', fontsize=14)
-        ax.set_ylabel('Network Distance', fontsize=14)
-        a = [v["clusterbalanced"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-        b = [v["networkDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-
-            #ax1 = fig.add_subplot(111)
-        #plt.tight_layout()    
-        plt.gcf().subplots_adjust(left=0.15)
-        plt.scatter(a, b, s=10, marker="o")
-        fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.pdf')
-            #ax1.annotate('a',(a,b))
-
-        
-        plt.close(fig)    
-
-    for i in xrange(0,numberofGenerations,10):
-        
-        fig = plt.figure()
-        fig.suptitle("Generation "+str(i), fontsize=14)
-        #fig,ax = plt.subplots()
-        ax.set_title(figtitleStr)
-        ax = fig.add_subplot(111)
-        ax.set_xlabel('Threshold Distance', fontsize=14)
-        ax.set_ylabel('Network Distance', fontsize=14)
-        a = [v["thresholdDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-        b = [v["networkDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-
-            #ax1 = fig.add_subplot(111)
-        #plt.tight_layout()    
-        plt.gcf().subplots_adjust(left=0.15)
-        plt.scatter(a, b, s=10, marker="o")
-        fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-net-g'+str(i)+'.pdf')
-            #ax1.annotate('a',(a,b))
-
-        
-        plt.close(fig)    
+        for i in xrange(0,numberofGenerations,10):
+            
+            fig = plt.figure()
+            fig.suptitle("Generation "+str(i), fontsize=14)
+            ax.set_title(figtitleStr)
+            ax = fig.add_subplot(111)
+            ax.set_xlabel('Threshold Distance', fontsize=14)
+            ax.set_ylabel('System Failure', fontsize=14)
+            a = [v["thresholdDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+            b = [v["reliability"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+    
+                #ax1 = fig.add_subplot(111)
+            plt.gcf().subplots_adjust(left=0.15)    
+            plt.scatter(a, b, s=10, marker="o")
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-reli-g'+str(i)+'.pdf')
+                #ax1.annotate('a',(a,b))
+    
+            
+            plt.close(fig)    
+    
+        for i in xrange(0,numberofGenerations,10):
+            
+            fig = plt.figure()
+            fig.suptitle("Generation "+str(i), fontsize=14)
+            #fig,ax = plt.subplots()
+            ax.set_title(figtitleStr)
+            ax = fig.add_subplot(111)
+            ax.set_xlabel('Cluster Balanced', fontsize=14)
+            ax.set_ylabel('Network Distance', fontsize=14)
+            a = [v["clusterbalanced"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+            b = [v["networkDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+    
+                #ax1 = fig.add_subplot(111)
+            #plt.tight_layout()    
+            plt.gcf().subplots_adjust(left=0.15)
+            plt.scatter(a, b, s=10, marker="o")
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.pdf')
+                #ax1.annotate('a',(a,b))
+    
+            
+            plt.close(fig)    
+            
+    else:
+ 
+        for i in xrange(0,numberofGenerations,10):
+            
+            fig = plt.figure()
+            fig.suptitle("Generation "+str(i), fontsize=14)
+            ax.set_title(figtitleStr)
+            ax = fig.add_subplot(111)
+            ax.set_xlabel('Threshold Distance', fontsize=14)
+            ax.set_ylabel('Cluster Balanced', fontsize=14)
+            a = [v["thresholdDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+            b = [v["clusterbalanced"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+    
+                #ax1 = fig.add_subplot(111)
+            plt.gcf().subplots_adjust(left=0.15)    
+            plt.scatter(a, b, s=10, marker="o")
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-clus-g'+str(i)+'.pdf')
+                #ax1.annotate('a',(a,b))
+    
+            
+            plt.close(fig)    
+    
+        for i in xrange(0,numberofGenerations,10):
+            
+            fig = plt.figure()
+            fig.suptitle("Generation "+str(i), fontsize=14)
+            #fig,ax = plt.subplots()
+            ax.set_title(figtitleStr)
+            ax = fig.add_subplot(111)
+            ax.set_xlabel('Cluster Balanced', fontsize=14)
+            ax.set_ylabel('Network Distance', fontsize=14)
+            a = [v["clusterbalanced"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+            b = [v["networkDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+    
+                #ax1 = fig.add_subplot(111)
+            #plt.tight_layout()    
+            plt.gcf().subplots_adjust(left=0.15)
+            plt.scatter(a, b, s=10, marker="o")
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.pdf')
+                #ax1.annotate('a',(a,b))
+    
+            
+            plt.close(fig)    
+    
+        for i in xrange(0,numberofGenerations,10):
+            
+            fig = plt.figure()
+            fig.suptitle("Generation "+str(i), fontsize=14)
+            #fig,ax = plt.subplots()
+            ax.set_title(figtitleStr)
+            ax = fig.add_subplot(111)
+            ax.set_xlabel('Threshold Distance', fontsize=14)
+            ax.set_ylabel('Network Distance', fontsize=14)
+            a = [v["thresholdDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+            b = [v["networkDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
+    
+                #ax1 = fig.add_subplot(111)
+            #plt.tight_layout()    
+            plt.gcf().subplots_adjust(left=0.15)
+            plt.scatter(a, b, s=10, marker="o")
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-net-g'+str(i)+'.pdf')
+                #ax1.annotate('a',(a,b))
+    
+            
+            plt.close(fig)    
 
 
     lastR = len(thresholdDistance['min'])-1
@@ -742,15 +790,28 @@ file_path = "./"+executionId
 
 if not os.path.exists(file_path):
     os.makedirs(file_path)
+    
+calculateReliability = True
 
-result_string = 'nodes;reqs;apps;'+\
-    'maxnetworkDistance;meannetworkDistance;minnetworkDistance;fitnetworkDistance;'+\
-    'maxclusterbalanced;meanclusterbalanced;minclusterbalanced;fitclusterbalanced;'+\
-    'maxthresholdDistance;meanthresholdDistance;minthresholdDistance;fitthresholdDistance;'+\
-    'maxfitness;meanfitness;minfitness;'+\
-    'maxnodeNumber;meannodeNumber;minnodeNumber;fitnodeNumber;'+\
-    'maxserviceNumber;measerviceNumber;minserviceNumber;fitserviceNumber'
-result_string += '\n'
+if calculateReliability:
+    result_string = 'nodes;reqs;apps;'+\
+        'maxnetworkDistance;meannetworkDistance;minnetworkDistance;fitnetworkDistance;'+\
+        'maxclusterbalanced;meanclusterbalanced;minclusterbalanced;fitclusterbalanced;'+\
+        'maxreliability;meanreliability;minreliability;fitreliability;'+\
+        'maxthresholdDistance;meanthresholdDistance;minthresholdDistance;fitthresholdDistance;'+\
+        'maxfitness;meanfitness;minfitness;'+\
+        'maxnodeNumber;meannodeNumber;minnodeNumber;fitnodeNumber;'+\
+        'maxserviceNumber;measerviceNumber;minserviceNumber;fitserviceNumber'
+    result_string += '\n'    
+else:
+    result_string = 'nodes;reqs;apps;'+\
+        'maxnetworkDistance;meannetworkDistance;minnetworkDistance;fitnetworkDistance;'+\
+        'maxclusterbalanced;meanclusterbalanced;minclusterbalanced;fitclusterbalanced;'+\
+        'maxthresholdDistance;meanthresholdDistance;minthresholdDistance;fitthresholdDistance;'+\
+        'maxfitness;meanfitness;minfitness;'+\
+        'maxnodeNumber;meannodeNumber;minnodeNumber;fitnodeNumber;'+\
+        'maxserviceNumber;measerviceNumber;minserviceNumber;fitserviceNumber'
+    result_string += '\n'
     
 numberofGenerations = 100
 
@@ -775,6 +836,8 @@ for n_nodes in [150, 200, 250, 300, 350, 400]:
             system.configurationB(nodes=n_nodes, req=n_reqs, apps=n_apps )
         
             g = ga.GA(system)
+            g.scaleLevel='SOFT'
+            g.reliabilityAwarness = calculateReliability
             g.generatePopulation(g.populationPt)
             paretoResults = []
             

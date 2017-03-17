@@ -34,6 +34,8 @@ class GA:
         self.populationPt = pop.POPULATION(self.populationSize)
         self.mutationProbability = 0.25
         self.rnd = random.Random()
+        self.scaleLevel='SOFT'
+        self.reliabilityAwarness = False
 
 
 
@@ -83,12 +85,29 @@ class GA:
 #   MUTATIONS
 #******************************************************************************************
 
-    
-    def shuffleMutation(self,child):
+
+    def shuffleMutationHARD(self,child):
         
         random.shuffle(child)
         
-    def growthMutation(self,child):
+    def growthMutationHARD(self,child):
+        
+        for serviceSelected in range(len(child)):
+            currentLen = len(child[serviceSelected]['allocationList'])
+            newElements = [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,currentLen))]
+            child[serviceSelected]['allocationList'] += newElements
+                       
+    def shrinkMutationHARD(self,child):
+        
+        for serviceSelected in range(len(child)):
+            if len(child[serviceSelected]['allocationList']) > 1:
+                child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],self.rnd.randint(1,len(child[serviceSelected]['allocationList'])-1))
+  
+    def shuffleMutationSOFT(self,child):
+        
+        random.shuffle(child)
+        
+    def growthMutationSOFT(self,child):
         
         for serviceSelected in range(len(child)):
             #currentLen = len(child[serviceSelected]['allocationList'])
@@ -96,7 +115,7 @@ class GA:
             newElements = [self.rnd.randint(0,self.system.nodenumber-1)]
             child[serviceSelected]['allocationList'] += newElements
                        
-    def shrinkMutation(self,child):
+    def shrinkMutationSOFT(self,child):
         
         for serviceSelected in range(len(child)):
             if len(child[serviceSelected]['allocationList']) > 1:
@@ -106,10 +125,16 @@ class GA:
     def mutate(self,child):
         #print "[Offsrping generation]: Mutation in process**********************"
         
-        mutationOperators = [] 
-        mutationOperators.append(self.shuffleMutation)
-        mutationOperators.append(self.growthMutation)
-        mutationOperators.append(self.shrinkMutation)
+        if (self.scaleLevel=='HARD'):
+            mutationOperators = [] 
+            mutationOperators.append(self.shuffleMutationHARD)
+            mutationOperators.append(self.growthMutationHARD)
+            mutationOperators.append(self.shrinkMutationHARD)            
+        else:
+            mutationOperators = [] 
+            mutationOperators.append(self.shuffleMutationSOFT)
+            mutationOperators.append(self.growthMutationSOFT)
+            mutationOperators.append(self.shrinkMutationSOFT)
         
         mutationOperators[self.rnd.randint(0,len(mutationOperators)-1)](child)
     
@@ -372,12 +397,14 @@ class GA:
             chr_fitness["thresholdDistance"] = self.calculateThreshold(chromosome)
 
             chr_fitness["clusterbalanced"] = self.calculateClusterBalanceUse(nodeLoads)
-            #chr_fitness["reliability"] = self.calculateFailure(chromosome)
+            if self.reliabilityAwarness:
+                chr_fitness["reliability"] = self.calculateFailure(chromosome)
             chr_fitness["networkDistance"] = self.calculateNetwork(chromosome)
         else:
             chr_fitness["thresholdDistance"] = float('inf')
             chr_fitness["clusterbalanced"] = float('inf')
-            #chr_fitness["reliability"] = float('inf')
+            if self.reliabilityAwarness:
+                chr_fitness["reliability"] = float('inf')
             chr_fitness["networkDistance"] = float('inf')
             
         return chr_fitness
