@@ -1,2 +1,1 @@
-# HDFSMapReduce-GA
 # containersGA
