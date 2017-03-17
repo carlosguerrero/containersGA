@@ -91,15 +91,17 @@ class GA:
     def growthMutation(self,child):
         
         for serviceSelected in range(len(child)):
-            currentLen = len(child[serviceSelected]['allocationList'])
-            newElements = [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,currentLen))]
+            #currentLen = len(child[serviceSelected]['allocationList'])
+            #newElements = [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,currentLen))]
+            newElements = self.rnd.randint(0,self.system.nodenumber-1)
             child[serviceSelected]['allocationList'] += newElements
                        
     def shrinkMutation(self,child):
         
         for serviceSelected in range(len(child)):
             if len(child[serviceSelected]['allocationList']) > 1:
-                child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],self.rnd.randint(1,len(child[serviceSelected]['allocationList'])-1))
+                #child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],self.rnd.randint(1,len(child[serviceSelected]['allocationList'])-1))
+                child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],len(child[serviceSelected]['allocationList'])-1)
     
     def mutate(self,child):
         #print "[Offsrping generation]: Mutation in process**********************"
@@ -541,7 +543,7 @@ class GA:
             chromosome = {}
         
             for msId in range(0,self.system.numberMicroServices):
-                    chromosome[msId] = {"allocationList": [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,self.system.nodenumber))] }
+                    chromosome[msId] = {"allocationList": [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,min(self.system.nodenumber,10)))] }
             popT.population[i]=chromosome
             #print "[Citizen generation]: Number %i generated**********************" % i
             #chr_fitness = self.calculateFitnessObjectives(chromosome,i)
