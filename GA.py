@@ -37,7 +37,7 @@ class GA:
         self.scaleLevel='SINGLE' # or OLD
         self.reliabilityAwarness = False
         self.initialGeneration = 'RANDOM' # or ADJUSTED
-        selt.networkDistanceCalculation = 'MEAN' #or TOTAL
+        self.networkDistanceCalculation = 'MEAN' #or TOTAL
 
 
 
@@ -311,8 +311,9 @@ class GA:
             for target in targetNodes:
                 distance = distance + self.system.cpdNetwork[source][target]
         
-        if self.networkDistanceCalculation == 'MEAN': 
-            distance = distance / (len(source) * len(target))
+        if self.networkDistanceCalculation == 'MEAN':
+            if len(sourceNodes)>0 and len(targetNodes)>0:
+                distance = distance / (len(sourceNodes) * len(targetNodes))
         
         return distance
         
