@@ -174,7 +174,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(f) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -198,7 +198,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(e) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -221,7 +221,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(b) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -271,7 +271,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(a) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -297,7 +297,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(c) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -321,7 +321,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(d) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -344,7 +344,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(f) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -367,7 +367,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(e) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -389,7 +389,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(b) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -439,7 +439,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(a) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -464,7 +464,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(c) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -487,7 +487,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(d) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -511,7 +511,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(f) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -533,7 +533,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(e) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -554,7 +554,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(b) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -602,7 +602,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(a) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -626,7 +626,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(c) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -648,7 +648,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
 #    fig.suptitle('bold figure suptitle', fontsize=14, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=14)
+    fig.suptitle("(d) "+figtitleStr, fontsize=14)
     ax = fig.add_subplot(111)
 #    fig.subplots_adjust(top=0.85)
 #    ax.set_title('axes title')
@@ -784,161 +784,72 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             plt.close(fig)    
 
 
-
     lastR = len(thresholdDistance['min'])-1
 
-    if g.reliabilityAwarness:
-        strToreturn=str(n_number)+';'+ \
-            str(n_reqs)+';'+ \
-            str(n_apps)+';'+ \
-            str(networkDistance['max'][lastR])+';'+ \
-            str(networkDistance['mean'][lastR])+';'+ \
-            str(networkDistance['min'][lastR])+';'+ \
-            str(networkDistance['sfit'][lastR])+';'+ \
-            str(clusterbalanced['max'][lastR])+';'+ \
-            str(clusterbalanced['mean'][lastR])+';'+ \
-            str(clusterbalanced['min'][lastR])+';'+ \
-            str(clusterbalanced['sfit'][lastR])+';'+ \
-            str(reliability['max'][lastR])+';'+ \
-            str(reliability['mean'][lastR])+';'+ \
-            str(reliability['min'][lastR])+';'+ \
-            str(reliability['sfit'][lastR])+';'+ \
-            str(thresholdDistance['max'][lastR])+';'+ \
-            str(thresholdDistance['mean'][lastR])+';'+ \
-            str(thresholdDistance['min'][lastR])+';'+ \
-            str(thresholdDistance['sfit'][lastR])+';'+ \
-            str(fitness['max'][lastR])+';'+ \
-            str(fitness['mean'][lastR])+';'+ \
-            str(fitness['min'][lastR])+';'+ \
-            str(nodeNumber['max'][lastR])+';'+ \
-            str(nodeNumber['mean'][lastR])+';'+ \
-            str(nodeNumber['min'][lastR])+';'+ \
-            str(nodeNumber['sfit'][lastR])+';'+ \
-            str(serviceNumber['max'][lastR])+';'+ \
-            str(serviceNumber['mean'][lastR])+';'+ \
-            str(serviceNumber['min'][lastR])+';'+ \
-            str(serviceNumber['sfit'][lastR])
-        
-    else:
-        strToreturn=str(n_number)+';'+ \
-            str(n_reqs)+';'+ \
-            str(n_apps)+';'+ \
-            str(networkDistance['max'][lastR])+';'+ \
-            str(networkDistance['mean'][lastR])+';'+ \
-            str(networkDistance['min'][lastR])+';'+ \
-            str(networkDistance['sfit'][lastR])+';'+ \
-            str(clusterbalanced['max'][lastR])+';'+ \
-            str(clusterbalanced['mean'][lastR])+';'+ \
-            str(clusterbalanced['min'][lastR])+';'+ \
-            str(clusterbalanced['sfit'][lastR])+';'+ \
-            str(thresholdDistance['max'][lastR])+';'+ \
-            str(thresholdDistance['mean'][lastR])+';'+ \
-            str(thresholdDistance['min'][lastR])+';'+ \
-            str(thresholdDistance['sfit'][lastR])+';'+ \
-            str(fitness['max'][lastR])+';'+ \
-            str(fitness['mean'][lastR])+';'+ \
-            str(fitness['min'][lastR])+';'+ \
-            str(nodeNumber['max'][lastR])+';'+ \
-            str(nodeNumber['mean'][lastR])+';'+ \
-            str(nodeNumber['min'][lastR])+';'+ \
-            str(nodeNumber['sfit'][lastR])+';'+ \
-            str(serviceNumber['max'][lastR])+';'+ \
-            str(serviceNumber['mean'][lastR])+';'+ \
-            str(serviceNumber['min'][lastR])+';'+ \
-            str(serviceNumber['sfit'][lastR])
+
+    strToreturn=str(n_number)+';'+ \
+        str(n_reqs)+';'+ \
+        str(n_apps)+';'+ \
+        str(networkDistance['max'][lastR])+';'+ \
+        str(networkDistance['mean'][lastR])+';'+ \
+        str(networkDistance['min'][lastR])+';'+ \
+        str(networkDistance['sfit'][lastR])+';'+ \
+        str(clusterbalanced['max'][lastR])+';'+ \
+        str(clusterbalanced['mean'][lastR])+';'+ \
+        str(clusterbalanced['min'][lastR])+';'+ \
+        str(clusterbalanced['sfit'][lastR])+';'+ \
+        str(thresholdDistance['max'][lastR])+';'+ \
+        str(thresholdDistance['mean'][lastR])+';'+ \
+        str(thresholdDistance['min'][lastR])+';'+ \
+        str(thresholdDistance['sfit'][lastR])+';'+ \
+        str(fitness['max'][lastR])+';'+ \
+        str(fitness['mean'][lastR])+';'+ \
+        str(fitness['min'][lastR])+';'+ \
+        str(nodeNumber['max'][lastR])+';'+ \
+        str(nodeNumber['mean'][lastR])+';'+ \
+        str(nodeNumber['min'][lastR])+';'+ \
+        str(nodeNumber['sfit'][lastR])+';'+ \
+        str(serviceNumber['max'][lastR])+';'+ \
+        str(serviceNumber['mean'][lastR])+';'+ \
+        str(serviceNumber['min'][lastR])+';'+ \
+        str(serviceNumber['sfit'][lastR])
         
     return strToreturn        
         
 
-executionId= datetime.now().strftime('%Y%m%d%H%M%S')
+executionId= 'datosRAW'
 
 
 file_path = "./"+executionId
+calculateReliability = False
+numberofGenerations=100
 
-if not os.path.exists(file_path):
-    os.makedirs(file_path)
+regCases = []
+regCases.append([150,1.0,2])
+regCases.append([200,1.0,1])
+regCases.append([300,1.0,1])
+regCases.append([350,1.5,2])
+regCases.append([400,2.0,1])
+
+for i in regCases:
+    n_nodes = i[0]
+    n_reqs= i[1]
+    n_apps = i[2]
+            
+    system = systemmodel.SYSTEMMODEL()
+    system.configurationB(nodes=n_nodes, req=n_reqs, apps=n_apps )
+
+    g = ga.GA(system)
+    g.scaleLevel='SOFT'
+    g.reliabilityAwarness = calculateReliability
+    paretoResults = []
+
+    pkl_file = open(file_path+'/nodes'+str(n_nodes)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'data.pkl', 'rb')
+    paretoResults = pickle.load(pkl_file)
+    pkl_file.close()
     
-calculateReliability = True
 
-if calculateReliability:
-    result_string = 'nodes;reqs;apps;'+\
-        'maxnetworkDistance;meannetworkDistance;minnetworkDistance;fitnetworkDistance;'+\
-        'maxclusterbalanced;meanclusterbalanced;minclusterbalanced;fitclusterbalanced;'+\
-        'maxreliability;meanreliability;minreliability;fitreliability;'+\
-        'maxthresholdDistance;meanthresholdDistance;minthresholdDistance;fitthresholdDistance;'+\
-        'maxfitness;meanfitness;minfitness;'+\
-        'maxnodeNumber;meannodeNumber;minnodeNumber;fitnodeNumber;'+\
-        'maxserviceNumber;measerviceNumber;minserviceNumber;fitserviceNumber'
-    result_string += '\n'    
-else:
-    result_string = 'nodes;reqs;apps;'+\
-        'maxnetworkDistance;meannetworkDistance;minnetworkDistance;fitnetworkDistance;'+\
-        'maxclusterbalanced;meanclusterbalanced;minclusterbalanced;fitclusterbalanced;'+\
-        'maxthresholdDistance;meanthresholdDistance;minthresholdDistance;fitthresholdDistance;'+\
-        'maxfitness;meanfitness;minfitness;'+\
-        'maxnodeNumber;meannodeNumber;minnodeNumber;fitnodeNumber;'+\
-        'maxserviceNumber;measerviceNumber;minserviceNumber;fitserviceNumber'
-    result_string += '\n'
-    
-numberofGenerations = 300
-
-
-#for n_number in (20,40,80):
-#    for n_reqs in (4,8,10):
-#        for n_apps in (2,3,4):
-
-outputlog = open(file_path+'/log.txt', 'wb')
-outputtotal = open(file_path+'/execution_data.csv', 'wb')
-outputtotal.write(result_string)
-outputtotal.flush()    
-    
-for n_nodes in [150, 200, 250, 300, 350, 400]:
-    for n_reqs in [1.0,1.5,2.0]:
-        for n_apps in [1,2]:
-#for n_nodes in [120]:
-#    for n_reqs in [1.0]:
-#        for n_apps in [1]:    
-            
-            system = systemmodel.SYSTEMMODEL()
-            system.configurationB(nodes=n_nodes, req=n_reqs, apps=n_apps )
-        
-            g = ga.GA(system)
-            g.scaleLevel='SINGLE'
-            g.initialGeneration = 'ADJUSTED'
-            g.networkDistanceCalculation = 'MEAN'
-            g.reliabilityAwarness = calculateReliability
-            g.generatePopulation(g.populationPt)
-            paretoResults = []
-            
-            paretoResults = []
-
-            paretoGeneration=g.populationPt.paretoExport()
-            paretoResults.append(paretoGeneration)
-            
-            for i in range(numberofGenerations):
-                g.evolveNGSA2()
-                paretoGeneration=g.populationPt.paretoExport()
-                paretoResults.append(paretoGeneration)
-                logstr = '[Generation number '+str(i)+' for nodes'+str(n_nodes)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+']'
-                print logstr
-                outputlog.write(logstr+'\n')
-                outputlog.flush()
-                           
-            output = open(file_path+'/nodes'+str(n_nodes)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'data.pkl', 'wb')
-            pickle.dump(paretoResults, output)
-            output.close()  
-            
-        #    pkl_file = open(file_path+'data.pkl','rb')  
-        #    paretoResults = pickle.load(pkl_file)
-        #    pkl_file.close()
-        
-            result_string = generarGraficas(file_path,paretoResults, n_nodes, n_reqs, n_apps,numberofGenerations)
-            result_string += '\n'
-            outputtotal.write(result_string)
-            outputtotal.flush()
-
-outputlog.close()
-outputtotal.close()            
+    generarGraficas(file_path,paretoResults, n_nodes, n_reqs, n_apps,numberofGenerations)
        
     
 

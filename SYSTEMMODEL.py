@@ -7,6 +7,7 @@ Created on Thu Feb 16 10:56:02 2017
 """
 import copy
 import random as random
+import math as math
 
 class SYSTEMMODEL:
     
@@ -21,6 +22,12 @@ class SYSTEMMODEL:
         self.cpdNetwork = []
         self.rnd = random.Random()
         self.rnd.seed(100)
+        
+    def normalizeConfiguration(self):
+        for i,v in enumerate(self.serviceTupla):
+            self.serviceTupla[i]['scaleLevel']= int(math.ceil((self.serviceTupla[i]['computationalResources']*self.serviceTupla[i]['requestNumber']*self.requestPerApp[self.serviceTupla[i]['application']])/self.serviceTupla[i]['threshold']))
+            self.serviceTupla[i]['containerUsage']= self.serviceTupla[i]['computationalResources']/self.serviceTupla[i]['scaleLevel'] 
+
         
     def configurationA(self,nodes, apps, req):
 
@@ -52,10 +59,12 @@ class SYSTEMMODEL:
         for n in range(self.nodenumber):
             self.nodeFeatures.append(self.plantillasMaquinas[n % len(self.plantillasMaquinas)])
             #self.nodeFeatures.append(self.plantillasMaquinas[self.rnd.randint(0,len(self.plantillasMaquinas)-1)])
+            
+       
 
-#******************************************************************************************
-#   Definición de la red del CPD
-#******************************************************************************************
+        #******************************************************************************************
+        #   Definición de la red del CPD
+        #******************************************************************************************
 
 
 
@@ -78,8 +87,22 @@ class SYSTEMMODEL:
         for r in range(self.nodenumber/2,self.nodenumber):
             for s in range(self.nodenumber/2,self.nodenumber):
                 self.cpdNetwork[r][s]=1.0
-                self.cpdNetwork[s][r]=1.0           
+                self.cpdNetwork[s][r]=1.0   
+        #******************************************************************************************
+        #   END Definición de la red del CPD
+        #******************************************************************************************
+        
+        #******************************************************************************************
+        #   BEGIN cálculo del escalado ajustado a threshold
+        #******************************************************************************************
+
+
+
+        self.normalizeConfiguration()        
                                         
+        #******************************************************************************************
+        #   END cálculo del escalado ajustado a threshold
+        #******************************************************************************************
  
 
 
@@ -126,10 +149,10 @@ class SYSTEMMODEL:
 
             
             
-#******************************************************************************************
-#   Definición de la red del CPD
-#******************************************************************************************
-
+        #******************************************************************************************
+        #   Definición de la red del CPD
+        #******************************************************************************************
+        
 
 
         self.cpdNetwork = [[0 for x in range(self.nodenumber)] for y in range(self.nodenumber)]
@@ -151,12 +174,23 @@ class SYSTEMMODEL:
         for r in range(self.nodenumber/2,self.nodenumber):
             for s in range(self.nodenumber/2,self.nodenumber):
                 self.cpdNetwork[r][s]=1.0
-                self.cpdNetwork[s][r]=1.0           
+                self.cpdNetwork[s][r]=1.0        
+        #******************************************************************************************
+        #   END Definición de la red del CPD
+        #******************************************************************************************
+        
+        #******************************************************************************************
+        #   BEGIN cálculo del escalado ajustado a threshold
+        #******************************************************************************************
+        
+
+
+        self.normalizeConfiguration()   
                             
 
-#******************************************************************************************
-#   END Definición de la red del CPD
-#******************************************************************************************
-
+        #******************************************************************************************
+        #   END cálculo del escalado ajustado a threshold
+        #******************************************************************************************
+        
 
    

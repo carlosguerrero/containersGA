@@ -34,8 +34,10 @@ class GA:
         self.populationPt = pop.POPULATION(self.populationSize)
         self.mutationProbability = 0.25
         self.rnd = random.Random()
-        self.scaleLevel='SOFT'
+        self.scaleLevel='SINGLE' # or OLD
         self.reliabilityAwarness = False
+        self.initialGeneration = 'RANDOM' # or ADJUSTED
+        selt.networkDistanceCalculation = 'MEAN' #or TOTAL
 
 
 
@@ -86,55 +88,56 @@ class GA:
 #******************************************************************************************
 
 
-    def shuffleMutationHARD(self,child):
+    def shuffleMutationOLD(self,child):
         
         random.shuffle(child)
         
-    def growthMutationHARD(self,child):
+    def growthMutationOLD(self,child):
         
         for serviceSelected in range(len(child)):
             currentLen = len(child[serviceSelected]['allocationList'])
             newElements = [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,currentLen))]
             child[serviceSelected]['allocationList'] += newElements
                        
-    def shrinkMutationHARD(self,child):
+    def shrinkMutationOLD(self,child):
         
         for serviceSelected in range(len(child)):
             if len(child[serviceSelected]['allocationList']) > 1:
                 child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],self.rnd.randint(1,len(child[serviceSelected]['allocationList'])-1))
   
-    def shuffleMutationSOFT(self,child):
         
-        random.shuffle(child)
-        
-    def growthMutationSOFT(self,child):
-        
+    def growthMutationSINGLE(self,child):
+        #aumenta un único elemento lista de allocationList en cada uno de los microservices 
         for serviceSelected in range(len(child)):
             #currentLen = len(child[serviceSelected]['allocationList'])
             #newElements = [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,currentLen))]
             newElements = [self.rnd.randint(0,self.system.nodenumber-1)]
             child[serviceSelected]['allocationList'] += newElements
                        
-    def shrinkMutationSOFT(self,child):
-        
+    def shrinkMutationSINGLE(self,child):
+        #disminuye en uno el número de container que implementa un microservice para cada uno de los microservices
         for serviceSelected in range(len(child)):
             if len(child[serviceSelected]['allocationList']) > 1:
                 #child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],self.rnd.randint(1,len(child[serviceSelected]['allocationList'])-1))
                 child[serviceSelected]['allocationList'] = self.rnd.sample(child[serviceSelected]['allocationList'],len(child[serviceSelected]['allocationList'])-1)
-    
+
+         
+                
+                
     def mutate(self,child):
         #print "[Offsrping generation]: Mutation in process**********************"
         
-        if (self.scaleLevel=='HARD'):
+        if (self.scaleLevel=='OLD'):
+            #las hard son las antiguas, las 
             mutationOperators = [] 
-            mutationOperators.append(self.shuffleMutationHARD)
-            mutationOperators.append(self.growthMutationHARD)
-            mutationOperators.append(self.shrinkMutationHARD)            
-        else:
+            mutationOperators.append(self.shuffleMutationOLD)
+            mutationOperators.append(self.growthMutationOLD)
+            mutationOperators.append(self.shrinkMutationOLD)            
+        if (self.scaleLevel=='SINGLE'):
             mutationOperators = [] 
-            mutationOperators.append(self.shuffleMutationSOFT)
-            mutationOperators.append(self.growthMutationSOFT)
-            mutationOperators.append(self.shrinkMutationSOFT)
+            mutationOperators.append(self.shuffleMutationOLD)
+            mutationOperators.append(self.growthMutationSINGLE)
+            mutationOperators.append(self.shrinkMutationSINGLE)            
         
         mutationOperators[self.rnd.randint(0,len(mutationOperators)-1)](child)
     
@@ -307,7 +310,10 @@ class GA:
         for source in sourceNodes:
             for target in targetNodes:
                 distance = distance + self.system.cpdNetwork[source][target]
-
+        
+        if self.networkDistanceCalculation == 'MEAN': 
+            distance = distance / (len(source) * len(target))
+        
         return distance
         
         
@@ -566,11 +572,15 @@ class GA:
 
 
     def generatePopulation(self,popT):
+        
         for i in range(self.populationSize):
             chromosome = {}
         
             for msId in range(0,self.system.numberMicroServices):
-                    chromosome[msId] = {"allocationList": [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,min(self.system.nodenumber,10)))] }
+                    if self.initialGeneration == 'RANDOM':
+                        chromosome[msId] = {"allocationList": [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.rnd.randint(1,min(self.system.nodenumber,10)))] }
+                    if self.initialGeneration == 'ADJUSTED':
+                        chromosome[msId] = {"allocationList": [self.rnd.randint(0,self.system.nodenumber-1) for r in xrange(self.system.serviceTupla[msId]['scaleLevel'])] }
             popT.population[i]=chromosome
             #print "[Citizen generation]: Number %i generated**********************" % i
             #chr_fitness = self.calculateFitnessObjectives(chromosome,i)
