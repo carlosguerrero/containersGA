@@ -36,8 +36,9 @@ class GA:
         self.rnd = random.Random()
         self.scaleLevel='SINGLE' # or OLD
         self.reliabilityAwarness = False
-        self.initialGeneration = 'RANDOM' # or ADJUSTED
+        self.initialGeneration = 'ADJUSTED' # or RANDOM
         self.networkDistanceCalculation = 'MEAN' #or TOTAL
+        self.thersholdCalculation = 'SINGLE' # or ACCUMULATED
 
 
 
@@ -276,7 +277,10 @@ class GA:
         scalabilityLevel = len(serviceChromosome['allocationList'])
         resourcesPerRequest = self.system.serviceTupla[serviceId]['computationalResources']
         
-        return abs( (requestNumber * resourcesPerRequest) - ( serviceThr * scalabilityLevel ) )
+        if self.thersholdCalculation=='ACCUMULATED':
+            return abs( (requestNumber * resourcesPerRequest) - ( serviceThr * scalabilityLevel ) )
+        else:
+            return abs( ((requestNumber * resourcesPerRequest)/scalabilityLevel) - serviceThr )
         
     def calculateThreshold(self,solution):
         thr = 0.0

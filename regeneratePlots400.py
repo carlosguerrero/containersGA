@@ -16,6 +16,7 @@ import pickle
 from datetime import datetime
 import os
 import matplotlib.pyplot as plt 
+import math as math
 
 def calculateServiceNumber(solution):
     mylen=0
@@ -150,9 +151,9 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             cluDiff = cmax
             
         if g.reliabilityAwarness:
-            seqfit = [ ( (x['thresholdDistance']-tmin/(thrDiff))*0.25 + (x['clusterbalanced']-cmin/(cluDiff))*0.25 + (x['reliability']-rmin/(relDiff))*0.25 + (x['networkDistance']-rmin/(netDiff))*0.25 )  for x in paretoGeneration.fitness if len(x)>0]
+            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*0.25 + (x['clusterbalanced']/(cluDiff))*0.25 + (x['reliability']/(relDiff))*0.25 + (x['networkDistance']/(netDiff))*0.25 )  for x in paretoGeneration.fitness if len(x)>0]
         else:
-            seqfit = [ ( (x['thresholdDistance']-tim/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']-cmin/(cluDiff))*(1.0/3.0) + (x['networkDistance']-nmin/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
+            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']/(cluDiff))*(1.0/3.0) + (x['networkDistance']/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
         fitness['min'].append(min(seqfit))
         fitness['max'].append(max(seqfit))
         fitness['mean'].append(np.mean(seqfit))
@@ -171,220 +172,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     figtitleStr = str(n_number)+' nodes, '+str(n_apps)+' apps, '+str(n_reqs)+' app requests'
 
 
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Services number', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(serviceNumber['max'], label='max')
-    ax.plot(serviceNumber['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(serviceNumber['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(serviceNumber['sfit'], label='minSOV', linewidth=2.0)    
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'services.pdf')
-    plt.close(fig)
-    
-
-    
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Nodes number', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(nodeNumber['max'], label='max')
-    ax.plot(nodeNumber['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(nodeNumber['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(nodeNumber['sfit'], label='minSOV', linewidth=2.0)    
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'nodes.pdf')
-    plt.close(fig)
-    
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Network Distance', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(networkDistance['max'], label='max')
-    ax.plot(networkDistance['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(networkDistance['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(networkDistance['sfit'], label='minSOV', linewidth=2.0)    
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'net.pdf')
-    plt.close(fig)
-    
-
-    if g.reliabilityAwarness:    
-    #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-        fig = plt.figure()
-    #    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-        fig.suptitle(figtitleStr, fontsize=18)
-        ax = fig.add_subplot(111)
-    #    fig.subplots_adjust(top=0.85)
-    #    ax.set_title('axes title')
-        ax.set_xlabel('Generations', fontsize=18)
-        ax.set_ylabel('System Failure', fontsize=18)
-        plt.gcf().subplots_adjust(left=0.15)
-        ax.plot(reliability['max'], label='max')
-        ax.plot(reliability['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-        ax.plot(reliability['min'], label='min', linewidth=2.0, linestyle='--')
-        ax.plot(reliability['sfit'], label='minSOV', linewidth=2.0)      
-        #    plt.legend(loc="upper left") 
-    #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-        plt.legend()
-    #    plt.show()
-        plt.grid()
-        fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
-        plt.close(fig)
-    
-
-    
-    
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Cluster Balanced', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(clusterbalanced['max'], label='max')
-    ax.plot(clusterbalanced['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(clusterbalanced['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(clusterbalanced['sfit'], label='minSOV', linewidth=2.0)      
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'cluster.pdf')
-    plt.close(fig)
-    
-
-    
-    
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Threshold Distance', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(thresholdDistance['max'], label='max')
-    ax.plot(thresholdDistance['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(thresholdDistance['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(thresholdDistance['sfit'], label='minSOV', linewidth=2.0)     
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr.pdf')
-    plt.close(fig)
-    
-
-    
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('SOV fitness', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(fitness['max'], label='max')
-    ax.plot(fitness['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(fitness['min'], label='min', linewidth=2.0, linestyle='--')
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'fit.pdf')
-    plt.close(fig)    
-
-#########SIN LOS MÁXIMOS!!!!
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Services number', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(serviceNumber['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(serviceNumber['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(serviceNumber['sfit'], label='minSOV', linewidth=2.0)    
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'services.pdf')
-    plt.close(fig)
-    
-
-    
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Nodes number', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(nodeNumber['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(nodeNumber['min'], label='min', linewidth=2.0, linestyle='--')
-    ax.plot(nodeNumber['sfit'], label='minSOV', linewidth=2.0)    
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'nodes.pdf')
-    plt.close(fig)
-    
+   
 
 #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
     fig = plt.figure()
@@ -401,10 +189,11 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     ax.plot(networkDistance['sfit'], label='minSOV', linewidth=2.0)    
     #    plt.legend(loc="upper left") 
 #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
+#    plt.ylim(13)
     plt.legend()
 #    plt.show()
     plt.grid()
-    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'net.pdf')
+    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'net.eps', format='eps')
     plt.close(fig)
     
 
@@ -424,12 +213,13 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
         ax.plot(reliability['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
         ax.plot(reliability['min'], label='min', linewidth=2.0, linestyle='--')
         ax.plot(reliability['sfit'], label='minSOV', linewidth=2.0)      
-        #    plt.legend(loc="upper left") 
+        #    plt.legend(loc="upper left")
+        plt.ylim(-0.02)
     #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
         plt.legend()
     #    plt.show()
         plt.grid()
-        fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
+        fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.eps', format='eps')
         plt.close(fig)
         
 
@@ -454,7 +244,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     plt.legend()
 #    plt.show()
     plt.grid()
-    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'cluster.pdf')
+    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'cluster.eps', format='eps')
     plt.close(fig)
     
 
@@ -476,35 +266,13 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     ax.plot(thresholdDistance['sfit'], label='minSOV', linewidth=2.0)     
     #    plt.legend(loc="upper left") 
 #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
+#    plt.ylim(200)    
     plt.legend()
 #    plt.show()
     plt.grid()
-    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr.pdf')
+    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr.eps', format='eps')
     plt.close(fig)
     
-
-    
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('SOV fitness', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(fitness['mean'], label='mean', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    ax.plot(fitness['min'], label='min', linewidth=2.0, linestyle='--')
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/minnodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'fit.pdf')
-    plt.close(fig)    
-
-#########SIN LOS FITS
 
 
 
@@ -525,7 +293,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     plt.legend()
 #    plt.show()
     plt.grid()
-    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'services.pdf')
+    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'services.eps', format='eps')
     plt.close(fig)
     
 
@@ -547,124 +315,9 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
     plt.legend()
 #    plt.show()
     plt.grid()
-    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'nodes.pdf')
+    fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'nodes.eps', format='eps')
     plt.close(fig)
     
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Network Distance', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(networkDistance['mean'], label='mean', linewidth=2.0)
-    ax.plot(networkDistance['min'], label='min', linewidth=2.0, linestyle='--', dashes=(10, 3)) 
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'net.pdf')
-    plt.close(fig)
-    
-
-    
-    if g.reliabilityAwarness:
-    #ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-        fig = plt.figure()
-    #    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-        fig.suptitle(figtitleStr, fontsize=18)
-        ax = fig.add_subplot(111)
-    #    fig.subplots_adjust(top=0.85)
-    #    ax.set_title('axes title')
-        ax.set_xlabel('Generations', fontsize=18)
-        ax.set_ylabel('System Failure', fontsize=18)
-        plt.gcf().subplots_adjust(left=0.15)
-        ax.plot(reliability['mean'], label='mean', linewidth=2.0)
-        ax.plot(reliability['min'], label='min', linewidth=2.0, linestyle='--', dashes=(10, 3))
-        
-        #    plt.legend(loc="upper left") 
-    #upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-        plt.legend()
-    #    plt.show()
-        plt.grid()
-        fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'reliability.pdf')
-        plt.close(fig)
-        
-    
-        
-    
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Cluster Balanced', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(clusterbalanced['mean'], label='mean', linewidth=2.0)
-    ax.plot(clusterbalanced['min'], label='min', linewidth=2.0, linestyle='--', dashes=(10, 3))   
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'cluster.pdf')
-    plt.close(fig)
-    
-
-    
-    
-
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('Threshold Distance', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(thresholdDistance['mean'], label='mean', linewidth=2.0)
-    ax.plot(thresholdDistance['min'], label='min', linewidth=2.0, linestyle='--', dashes=(10, 3))    
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr.pdf')
-    plt.close(fig)
-    
-
-    
-#ejemplo sacado de http://matplotlib.org/users/text_intro.html    
-    fig = plt.figure()
-#    fig.suptitle('bold figure suptitle', fontsize=18, fontweight='bold')
-    fig.suptitle(figtitleStr, fontsize=18)
-    ax = fig.add_subplot(111)
-#    fig.subplots_adjust(top=0.85)
-#    ax.set_title('axes title')
-    ax.set_xlabel('Generations', fontsize=18)
-    ax.set_ylabel('SOV fitness', fontsize=18)
-    plt.gcf().subplots_adjust(left=0.15)
-    ax.plot(fitness['mean'], label='mean', linewidth=2.0)
-    ax.plot(fitness['min'], label='min', linewidth=2.0, linestyle='--', dashes=(10, 3))
-    #    plt.legend(loc="upper left") 
-#upper, arriba    lower, abajo   center, centro    left, izquierda y    right, derecha
-    plt.legend()
-#    plt.show()
-    plt.grid()
-    fig.savefig(file_path+'/min2nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'fit.pdf')
-    plt.close(fig)    
-
 
 
     if g.reliabilityAwarness:
@@ -680,12 +333,11 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             ax.set_ylabel('System Failure', fontsize=18)
             a = [v["thresholdDistance"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
             b = [v["reliability"] for f,v in enumerate(paretoResults[i].fitness) if len(v) > 0]
-    
                 #ax1 = fig.add_subplot(111)
             plt.gcf().subplots_adjust(left=0.15)    
             plt.scatter(a, b, s=40, marker="o")
             plt.grid()
-            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-reli-g'+str(i)+'.pdf')
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-reli-g'+str(i)+'.eps', format='eps')
                 #ax1.annotate('a',(a,b))
     
             
@@ -708,7 +360,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             plt.gcf().subplots_adjust(left=0.15)
             plt.scatter(a, b, s=40, marker="o")
             plt.grid()
-            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.pdf')
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.eps', format='eps')
                 #ax1.annotate('a',(a,b))
     
             
@@ -731,7 +383,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             plt.gcf().subplots_adjust(left=0.15)    
             plt.scatter(a, b, s=40, marker="o")
             plt.grid()
-            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-clus-g'+str(i)+'.pdf')
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-clus-g'+str(i)+'.eps', format='eps')
                 #ax1.annotate('a',(a,b))
     
             
@@ -754,7 +406,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             plt.gcf().subplots_adjust(left=0.15)
             plt.scatter(a, b, s=40, marker="o")
             plt.grid()
-            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.pdf')
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'clus-net-g'+str(i)+'.eps', format='eps')
                 #ax1.annotate('a',(a,b))
     
             
@@ -777,7 +429,7 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
             plt.gcf().subplots_adjust(left=0.15)
             plt.scatter(a, b, s=40, marker="o")
             plt.grid()
-            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-net-g'+str(i)+'.pdf')
+            fig.savefig(file_path+'/nodes'+str(n_number)+'reqs'+str(n_reqs)+'apps'+str(n_apps)+'thr-net-g'+str(i)+'.eps', format='eps')
                 #ax1.annotate('a',(a,b))
     
             
@@ -845,7 +497,7 @@ calculateReliability = True
 numberofGenerations=300
 
 regCases = []
-regCases.append([350,1.5,2])
+#regCases.append([350,1.5,2])
 #regCases.append([200,1.0,1])
 #regCases.append([300,1.0,1])
 #regCases.append([350,1.5,2])

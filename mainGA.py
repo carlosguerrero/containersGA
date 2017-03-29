@@ -16,6 +16,7 @@ import pickle
 from datetime import datetime
 import os
 import matplotlib.pyplot as plt 
+import math as math
 
 def calculateServiceNumber(solution):
     mylen=0
@@ -149,10 +150,16 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
         else:
             cluDiff = cmax
             
+#        if g.reliabilityAwarness:
+#            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*0.25 + (x['clusterbalanced']/(cluDiff))*0.25 + (x['reliability']/(relDiff))*0.25 + (x['networkDistance']/(netDiff))*0.25 )  for x in paretoGeneration.fitness if len(x)>0]
+#        else:
+#            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']/(cluDiff))*(1.0/3.0) + (x['networkDistance']/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
+
         if g.reliabilityAwarness:
-            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*0.25 + (x['clusterbalanced']/(cluDiff))*0.25 + (x['reliability']/(relDiff))*0.25 + (x['networkDistance']/(netDiff))*0.25 )  for x in paretoGeneration.fitness if len(x)>0]
+            seqfit = [ ( math.pow((x['thresholdDistance']-tmin/(thrDiff))*0.25,2) + math.pow((x['clusterbalanced']-cmin/(cluDiff))*0.25,2) + math.pow((x['reliability']-rmin/(relDiff))*0.25,2) + math.pow((x['networkDistance']-nmin/(netDiff))*0.25,2) )  for x in paretoGeneration.fitness if len(x)>0]
         else:
-            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']/(cluDiff))*(1.0/3.0) + (x['networkDistance']/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
+            seqfit = [ ( math.pow((x['thresholdDistance']-tmin/(thrDiff))*(1.0/3.0),2) + math.pow((x['clusterbalanced']-cmin/(cluDiff))*(1.0/3.0),2) + math.pow((x['networkDistance']-nmin/(netDiff))*(1.0/3.0),2) )  for x in paretoGeneration.fitness if len(x)>0]
+
         fitness['min'].append(min(seqfit))
         fitness['max'].append(max(seqfit))
         fitness['mean'].append(np.mean(seqfit))
@@ -892,20 +899,18 @@ outputtotal = open(file_path+'/execution_data.csv', 'wb')
 outputtotal.write(result_string)
 outputtotal.flush()    
     
-for n_nodes in [150, 200, 250, 300, 350, 400]:
+for n_nodes in [250, 300, 350, 400]:
     for n_reqs in [1.0,1.5,2.0]:
         for n_apps in [1,2]:
-#for n_nodes in [120]:
-#    for n_reqs in [1.0]:
-#        for n_apps in [1]:    
             
             system = systemmodel.SYSTEMMODEL()
             system.configurationB(nodes=n_nodes, req=n_reqs, apps=n_apps )
         
             g = ga.GA(system)
-            g.scaleLevel='SINGLE'
-            g.initialGeneration = 'ADJUSTED'
-            g.networkDistanceCalculation = 'MEAN'
+            g.scaleLevel='SINGLE' # or OLD
+            g.initialGeneration = 'ADJUSTED' # or RANDOM
+            g.networkDistanceCalculation = 'MEAN' #or TOTAL
+            g.thersholdCalculation = 'SINGLE' # or ACCUMULATED
             g.reliabilityAwarness = calculateReliability
             g.generatePopulation(g.populationPt)
             paretoResults = []
