@@ -156,9 +156,9 @@ def generarGraficas(file_path,paretoResults, n_number, n_reqs, n_apps, numberofG
 #            seqfit = [ ( (x['thresholdDistance']/(thrDiff))*(1.0/3.0) + (x['clusterbalanced']/(cluDiff))*(1.0/3.0) + (x['networkDistance']/(netDiff))*(1.0/3.0) )  for x in paretoGeneration.fitness if len(x)>0]
 
         if g.reliabilityAwarness:
-            seqfit = [ ( math.pow((x['thresholdDistance']-tmin/(thrDiff))*0.25,2) + math.pow((x['clusterbalanced']-cmin/(cluDiff))*0.25,2) + math.pow((x['reliability']-rmin/(relDiff))*0.25,2) + math.pow((x['networkDistance']-nmin/(netDiff))*0.25,2) )  for x in paretoGeneration.fitness if len(x)>0]
+            seqfit = [ ( math.pow(((x['thresholdDistance']-tmin)/(thrDiff))*0.25,2) + math.pow(((x['clusterbalanced']-cmin)/(cluDiff))*0.25,2) + math.pow(((x['reliability']-rmin)/(relDiff))*0.25,2) + math.pow(((x['networkDistance']-nmin)/(netDiff))*0.25,2) )  for x in paretoGeneration.fitness if len(x)>0]
         else:
-            seqfit = [ ( math.pow((x['thresholdDistance']-tmin/(thrDiff))*(1.0/3.0),2) + math.pow((x['clusterbalanced']-cmin/(cluDiff))*(1.0/3.0),2) + math.pow((x['networkDistance']-nmin/(netDiff))*(1.0/3.0),2) )  for x in paretoGeneration.fitness if len(x)>0]
+            seqfit = [ ( math.pow(((x['thresholdDistance']-tmin)/(thrDiff))*(1.0/3.0),2) + math.pow(((x['clusterbalanced']-cmin)/(cluDiff))*(1.0/3.0),2) + math.pow(((x['networkDistance']-nmin)/(netDiff))*(1.0/3.0),2) )  for x in paretoGeneration.fitness if len(x)>0]
 
         fitness['min'].append(min(seqfit))
         fitness['max'].append(max(seqfit))
